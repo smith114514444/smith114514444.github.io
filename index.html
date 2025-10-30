@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欢迎来到PSG服务器 - 公平友好的Minecraft生存体验</title>
+    
+    <!-- 添加Favicon图标 -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2a9d8f;
+            --secondary: #264653;
+            --accent: #e9c46a;
+            --dark: #1d3557;
+            --light: #f1faee;
+            --danger: #e63946;
+        }
+
+        body {
+            background-color: #0a1929;
+            color: var(--light);
+            line-height: 1.6;
+            background-image: url('background.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, var(--secondary), var(--dark));
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: var(--light);
+        }
+
+        .server-version {
+            display: inline-block;
+            background-color: var(--primary);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .intro {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        section {
+            background-color: rgba(29, 53, 87, 0.8);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2 i {
+            font-size: 1.8rem;
+        }
+
+        h3 {
+            color: var(--primary);
+            margin: 25px 0 15px;
+            font-size: 1.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-card {
+            background-color: rgba(38, 70, 83, 0.6);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .feature-card h4 {
+            color: var(--accent);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .plugins-list {
+            list-style-type: none;
+        }
+
+        .plugins-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .plugins-list li:last-child {
+            border-bottom: none;
+        }
+
+        .rules-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .rule-category {
+            background-color: rgba(38, 70, 83, 0.6);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .rule-category h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .rules-list {
+            list-style-type: none;
+        }
+
+        .rules-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .rules-list li::before {
+            content: '•';
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+        }
+
+        .join-section {
+            text-align: center;
+            background: linear-gradient(135deg, var(--secondary), var(--dark));
+        }
+
+        .server-address {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            display: inline-block;
+            border: 1px solid var(--primary);
+        }
+
+        .version-note {
+            color: var(--accent);
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .step {
+            background-color: rgba(38, 70, 83, 0.6);
+            padding: 20px;
+            border-radius: 8px;
+            width: 200px;
+            text-align: center;
+        }
+
+        .step-number {
+            background-color: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: bold;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 20px;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            color: var(--accent);
+            font-weight: bold;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .faq-answer {
+            padding-left: 30px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .qq-group {
+            background: linear-gradient(135deg, #12c2e9, #c471ed, #f64f59);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px auto;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+
+        .qq-group i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .qq-group h3 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .qq-group-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 15px 0;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .qq-group-desc {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .contact-item {
+            background-color: rgba(38, 70, 83, 0.6);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            min-width: 250px;
+            max-width: 400px;
+        }
+
+        .contact-item i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .contact-item h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            section {
+                padding: 20px;
+            }
+            
+            .features-grid, .rules-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .steps {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .step {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .qq-group-number {
+                font-size: 2rem;
+            }
+            
+            .contact-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .contact-item {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>欢迎来到「PSG」</h1>
+            <p class="subtitle">一个长期、公平的Paper插件生存服务器</p>
+            <div class="server-version">版本: 1.20.1 ~ 1.21.x</div>
+            <p class="intro">诚挚邀请各位冒险家加入我们的生存服务器！在这里，我们致力于打造一个长期稳定、公平友好的生存环境，基于Paper端优化游戏体验，并加入了实用的辅助插件，让你尽情享受探索、建造与合作的乐趣。</p>
+        </header>
+
+        <section class="features">
+            <h2><i class="fas fa-star"></i> 服务器特色与介绍</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4><i class="fas fa-scroll"></i> 长期稳定，安心定居</h4>
+                    <p>服务器以长期运行为目标，主世界永不删档。你可以安心投入时间，建造宏伟工程，发展你的基地，不必担心心血白费。我们深知，时间是你最宝贵的投入。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-tachometer-alt"></i> 高性能Paper核心</h4>
+                    <p>服务器采用高性能的Paper服务端核心，修复了原版大量机制问题，并提供强大的API支持。这意味着更流畅的游戏体验、更少的卡顿和延迟，同时完全兼容Spigot插件生态。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-gamepad"></i> 原汁原味，适度优化</h4>
+                    <p>我们最大程度保留原版生存的纯粹玩法，所有核心玩法与原版一致。在此基础上，仅通过插件进行了体验优化和便利性调整，绝不破坏生存挑战和经济平衡。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-users"></i> 公平友好的社区</h4>
+                    <p>服务器坚持纯公益运营理念，拒绝任何形式的Pay-to-Win（付费变强）。没有管理员特权干预，所有玩家平等享受服务器资源，无论新老玩家都在同一起跑线。</p>
+                </div>
+            </div>
+            
+            <h3><i class="fas fa-plug"></i> 实用的辅助插件</h3>
+            <ul class="plugins-list">
+                <li><i class="fas fa-cog"></i> <strong>核心管理插件：</strong>确保服务器稳定运行与基础管理</li>
+                <li><i class="fas fa-bullhorn"></i> <strong>TAB公告：</strong>支持多类型（聊天、标题、BOSS栏等）的全自动RGB色彩公告系统</li>
+                <li><i class="fas fa-comments"></i> <strong>SyncChats聊天同步：</strong>实现游戏内与QQ群的实时双向聊天</li>
+                <li><i class="fas fa-toolbox"></i> <strong>其他辅助插件：</strong>包括基础的领地保护、经济系统、传送点等</li>
+            </ul>
+        </section>
+
+        <section class="rules">
+            <h2><i class="fas fa-gavel"></i> 服务器规则</h2>
+            <p>为确保每一位玩家都能享有公平和愉快的游戏体验，请务必遵守以下规则。</p>
+            
+            <div class="rules-container">
+                <div class="rule-category">
+                    <h4><i class="fas fa-shield-alt"></i> 游戏行为规范</h4>
+                    <ul class="rules-list">
+                        <li>禁止任何形式的崩溃服务器、使用DDOS或利用游戏漏洞来杀死玩家</li>
+                        <li>禁止恶意破坏他人建筑、财产或公共设施</li>
+                        <li>禁止偷窃其他玩家箱子内的物品</li>
+                        <li>禁止在公共频道或对他人进行言语侮辱、刷屏、散布不良信息等行为</li>
+                        <li>禁止建造任何形式的Lag机器或进行其他恶意消耗服务器资源的行为</li>
+                    </ul>
+                </div>
+                
+                <div class="rule-category">
+                    <h4><i class="fas fa-fist-raised"></i> PVP与玩家互动</h4>
+                    <ul class="rules-list">
+                        <li>主世界默认PVP关闭，部分特定资源世界或活动区域将开启PVP</li>
+                        <li>鼓励玩家之间互帮互助、交易、合作完成大型工程</li>
+                        <li>玩家间的竞争应建立在友好、体育精神的基础上</li>
+                    </ul>
+                </div>
+                
+                <div class="rule-category">
+                    <h4><i class="fas fa-home"></i> 建筑与用地</h4>
+                    <ul class="rules-list">
+                        <li>请合理规划您的建筑，避免侵占他人的建筑空间</li>
+                        <li>避免生成严重影响他人体验的建筑</li>
+                        <li>在主城及周边保护区，请遵守秩序，不得随意建造或破坏</li>
+                    </ul>
+                </div>
+                
+                <div class="rule-category">
+                    <h4><i class="fas fa-user-shield"></i> 管理员与公平性</h4>
+                    <ul class="rules-list">
+                        <li>管理员仅负责维护服务器秩序、处理作弊行为、解决玩家问题</li>
+                        <li>管理员不会利用权限获取额外资源</li>
+                        <li>如果遇到问题，请通过官方QQ群聊或游戏内邮件理性联系管理员</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="join-section">
+            <h2><i class="fas fa-door-open"></i> 如何加入我们</h2>
+            
+            <div class="server-address">mc.psglx666.qzz.io</div>
+            
+            <p class="version-note">游戏版本：1.20.1 ~ 1.21.x (推荐使用最新版)</p>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <p>启动你的 Minecraft Java 版客户端</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <p>在多人游戏中添加服务器地址</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <p>连接并开始你的冒险！</p>
+                </div>
+            </div>
+            
+            <!-- 添加QQ群信息 -->
+            <div class="qq-group">
+                <i class="fab fa-qq"></i>
+                <h3>官方QQ群</h3>
+                <div class="qq-group-number">183611495</div>
+                <p class="qq-group-desc">加入我们的官方QQ群，获取最新公告、与玩家交流、获得技术支持！</p>
+            </div>
+            
+            <h3><i class="fas fa-users"></i> 社区与支持</h3>
+            <p>加入我们的QQ群以获得最新公告、玩家交流和技术支持。</p>
+            <p>初次进入的玩家，请耐心阅读游戏内的新手指南。</p>
+            
+            <div class="contact-container">
+                <div class="contact-item">
+                    <i class="fas fa-gamepad"></i>
+                    <h4>游戏内支持</h4>
+                    <p>使用 /help 命令查看游戏内帮助</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-qq"></i>
+                    <h4>QQ群支持</h4>
+                    <p>加入QQ群获取即时帮助</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <h4>邮件支持</h4>
+                    <p>通过游戏内邮件联系管理员</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq">
+            <h2><i class="fas fa-question-circle"></i> 温馨提示与常见问题</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-question"></i> 服务器有正版验证吗？</div>
+                <div class="faq-answer">
+                    <p>我们支持并推荐正版，但为方便更多玩家，也提供了离线模式登录。使用非正版账号的玩家可能需要简单的注册/登录流程。</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-question"></i> 服务器会重置吗？</div>
+                <div class="faq-answer">
+                    <p>主世界永不删档。只有当遇到无法修复的重大问题时，才会在经过社区投票后考虑重置，并尽可能提供数据迁移方案。</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-question"></i> 遇到玩家违规怎么办？</div>
+                <div class="faq-answer">
+                    <p>请及时在QQ联系管理员，并提供截图/录像等证据。</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="closing">
+            <h2><i class="fas fa-heart"></i> 我们的承诺</h2>
+            <p>我们坚信，一个优秀的Minecraft服务器不在于最花哨的功能，而在于一个稳定、公平和友善的社区。期待在「PSG」与你相遇，共同打造属于我们的奇妙世界！</p>
+            <p class="highlight">服务器团队 谨致</p>
+        </section>
+
+        <footer>
+            <p>© 2023 PSG服务器团队 | 公平友好的Minecraft生存体验</p>
+            <p>官方QQ群: 183611495 | 本服务器为公益性质，无任何付费变强机制</p>
+        </footer>
+    </div>
+
+    <script>
+        // 简单的FAQ交互效果
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+
+        // 初始隐藏所有FAQ答案
+        document.querySelectorAll('.faq-answer').forEach(answer => {
+            answer.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
