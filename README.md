@@ -83,7 +83,7 @@
 
 ### 📞 联系我们
 
-[![QQ群](https://img.shields.io/badge/QQ群-183611495-red?style=for-the-badge&logo=tencentqq)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=你的QQ群key)
+[![QQ群](https://img.shields.io/badge/QQ群-183611495-red?style=for-the-badge&logo=tencentqq)](https://qm.qq.com/cgi-bin/qm/qr?k=j5IxgqTjNg3MsymYfvMYDzOQlWjkkAXp&jump_from=webapi&authKey=9aAl5x71i6nckRx6vYiH81Pa8wEj3ffTGfsHJlYmybfrXeWTLZgFcbZcsSt+kRr6)
 [![GitHub](https://img.shields.io/badge/GitHub-项目主页-black?style=for-the-badge&logo=github)](https://github.com/smith114514444/smith114514444.github.io)
 
 </div>
@@ -204,4 +204,5 @@
 
 **© 2023 PSG服务器团队 | 公平友好的Minecraft生存体验**
 
+</div>
 </div>
