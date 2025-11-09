@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>欢迎来到PSG服务器 - 公平友好的Minecraft生存体验</title>
     
-    <!-- 预加载关键资源 -->
-    <link rel="preload" href="images/background.webp" as="image" type="image/webp">
-    <link rel="preload" href="images/background.png" as="image">
-    
     <!-- 添加Favicon图标 -->
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
@@ -37,21 +33,11 @@
             background-color: #0a1929;
             color: var(--light);
             line-height: 1.6;
-            /* 渐进式背景加载 - WebP优先，PNG作为回退 */
-            background-image: url('images/background.webp');
-            background-image: -webkit-image-set(
-                url('images/background.webp') 1x,
-                url('images/background.png') 1x
-            );
-            background-image: image-set(
-                url('images/background.webp') 1x,
-                url('images/background.png') 1x
-            );
+            background-image: url('images/background.png');
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
-            /* 添加加载状态 */
-            background-color: #0a1929;
+            padding-top: 70px; /* 为顶部导航栏留出空间 */
         }
 
         .container {
@@ -60,15 +46,119 @@
             padding: 20px;
         }
 
+        /* 顶部导航栏样式 */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(29, 53, 87, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            padding: 0 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style-type: none;
+        }
+
+        .nav-links li {
+            margin: 0 5px;
+        }
+
+        .nav-links a {
+            display: block;
+            color: var(--light);
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(42, 157, 143, 0.3);
+            color: var(--accent);
+        }
+
+        .nav-links a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .nav-links i {
+            margin-right: 5px;
+        }
+
+        /* 服务器IP区域 - 半透明 */
+        .server-ip-section {
+            text-align: center;
+            padding: 30px;
+            background: rgba(38, 70, 83, 0.7);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .server-ip-section h2 {
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .server-ip {
+            font-family: monospace;
+            font-size: 1.5rem;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 15px 25px;
+            border-radius: 8px;
+            border: 2px solid var(--primary);
+            display: inline-block;
+            margin: 10px 0;
+        }
+
+        .version-note {
+            color: var(--light);
+            font-size: 1.1rem;
+        }
+
+        /* 欢迎区域 - 半透明 */
         header {
             text-align: center;
             padding: 60px 20px;
-            background: linear-gradient(135deg, var(--secondary), var(--dark));
+            background: rgba(38, 70, 83, 0.7);
             border-radius: 10px;
             margin-bottom: 30px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         header::before {
@@ -97,7 +187,7 @@
 
         .server-version {
             display: inline-block;
-            background-color: var(--primary);
+            background-color: rgba(42, 157, 143, 0.8);
             padding: 8px 20px;
             border-radius: 20px;
             font-weight: bold;
@@ -111,20 +201,14 @@
         }
 
         section {
-            background-color: rgba(29, 53, 87, 0.8);
+            background-color: rgba(29, 53, 87, 0.7);
             border-radius: 10px;
             padding: 30px;
             margin-bottom: 30px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        section.loaded {
-            opacity: 1;
-            transform: translateY(0);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         section:hover {
@@ -158,7 +242,7 @@
         }
 
         .feature-card {
-            background-color: rgba(38, 70, 83, 0.6);
+            background-color: rgba(38, 70, 83, 0.5);
             padding: 20px;
             border-radius: 8px;
             border-left: 4px solid var(--primary);
@@ -195,7 +279,7 @@
         }
 
         .rule-category {
-            background-color: rgba(38, 70, 83, 0.6);
+            background-color: rgba(38, 70, 83, 0.5);
             padding: 20px;
             border-radius: 8px;
         }
@@ -227,24 +311,7 @@
 
         .join-section {
             text-align: center;
-            background: linear-gradient(135deg, var(--secondary), var(--dark));
-        }
-
-        .server-address {
-            background-color: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 1.2rem;
-            margin: 20px 0;
-            display: inline-block;
-            border: 1px solid var(--primary);
-        }
-
-        .version-note {
-            color: var(--accent);
-            font-weight: bold;
-            margin: 15px 0;
+            background: rgba(38, 70, 83, 0.7);
         }
 
         .steps {
@@ -256,7 +323,7 @@
         }
 
         .step {
-            background-color: rgba(38, 70, 83, 0.6);
+            background-color: rgba(38, 70, 83, 0.5);
             padding: 20px;
             border-radius: 8px;
             width: 200px;
@@ -298,7 +365,6 @@
 
         .faq-answer {
             padding-left: 30px;
-            display: none;
         }
 
         footer {
@@ -307,6 +373,9 @@
             margin-top: 50px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: rgba(255, 255, 255, 0.7);
+            background: rgba(29, 53, 87, 0.7);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
         }
 
         .highlight {
@@ -315,7 +384,7 @@
         }
 
         .qq-group {
-            background: linear-gradient(135deg, #12c2e9, #c471ed, #f64f59);
+            background: linear-gradient(135deg, rgba(18, 194, 233, 0.8), rgba(196, 113, 237, 0.8), rgba(246, 79, 89, 0.8));
             padding: 25px;
             border-radius: 10px;
             margin: 30px auto;
@@ -323,6 +392,7 @@
             text-align: center;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             color: white;
+            backdrop-filter: blur(5px);
         }
 
         .qq-group i {
@@ -357,7 +427,7 @@
         }
 
         .contact-item {
-            background-color: rgba(38, 70, 83, 0.6);
+            background-color: rgba(38, 70, 83, 0.5);
             padding: 20px;
             border-radius: 8px;
             text-align: center;
@@ -377,8 +447,90 @@
             margin-bottom: 10px;
         }
 
-        /* 移动端优化 */
+        /* 合并后的常见问题与承诺部分 */
+        .faq-commitment-section {
+            min-height: 600px; /* 确保有足够的高度 */
+        }
+
+        .faq-commitment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .faq-column, .commitment-column {
+            background-color: rgba(38, 70, 83, 0.5);
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        .commitment-content {
+            line-height: 1.8;
+        }
+
+        .commitment-content p {
+            margin-bottom: 15px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
         @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+            
+            .top-nav {
+                padding: 0 15px;
+            }
+            
+            .nav-container {
+                height: 60px;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: rgba(29, 53, 87, 0.95);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+                backdrop-filter: blur(10px);
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            .nav-links li {
+                margin: 10px 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .nav-links a {
+                padding: 15px;
+                width: 100%;
+            }
+            
             h1 {
                 font-size: 2.5rem;
             }
@@ -418,31 +570,46 @@
                 width: 100%;
             }
             
-            body {
-                background-attachment: scroll; /* 移动端 fixed 性能较差 */
+            .server-ip {
+                font-size: 1.2rem;
+                padding: 10px 20px;
             }
-        }
-
-        /* 加载进度条 */
-        #loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--primary);
-            z-index: 9999;
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
+            
+            .faq-commitment-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .faq-commitment-section {
+                min-height: auto;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- 加载进度条 -->
-    <div id="loading"></div>
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-cube"></i>
+                <span>PSG服务器</span>
+            </div>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-links">
+                <li><a href="#features" class="active"><i class="fas fa-star"></i> 服务器特色</a></li>
+                <li><a href="#rules"><i class="fas fa-gavel"></i> 服务器规则</a></li>
+                <li><a href="#join"><i class="fas fa-door-open"></i> 如何加入</a></li>
+                <li><a href="#faq-commitment"><i class="fas fa-question-circle"></i> 常见问题与承诺</a></li>
+                <li><a href="https://github.com/smith114514444/smith114514444.github.io" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
 
     <div class="container">
+        <!-- 欢迎区域 - 半透明 -->
         <header>
             <h1>欢迎来到「PSG」</h1>
             <p class="subtitle">一个长期、公平的Paper插件生存服务器</p>
@@ -450,7 +617,14 @@
             <p class="intro">诚挚邀请各位冒险家加入我们的生存服务器！在这里，我们致力于打造一个长期稳定、公平友好的生存环境，基于Paper端优化游戏体验，并加入了实用的辅助插件，让你尽情享受探索、建造与合作的乐趣。</p>
         </header>
 
-        <section class="features">
+        <!-- 服务器IP区域 - 半透明 -->
+        <div class="server-ip-section">
+            <h2><i class="fas fa-server"></i> 服务器地址</h2>
+            <div class="server-ip">mc.psglx666.qzz.io</div>
+            <p class="version-note">游戏版本：1.20.1 ~ 1.21.x (推荐使用最新版)</p>
+        </div>
+
+        <section class="features" id="features">
             <h2><i class="fas fa-star"></i> 服务器特色与介绍</h2>
             
             <div class="features-grid">
@@ -484,7 +658,7 @@
             </ul>
         </section>
 
-        <section class="rules">
+        <section class="rules" id="rules">
             <h2><i class="fas fa-gavel"></i> 服务器规则</h2>
             <p>为确保每一位玩家都能享有公平和愉快的游戏体验，请务必遵守以下规则。</p>
             
@@ -529,12 +703,8 @@
             </div>
         </section>
 
-        <section class="join-section">
+        <section class="join-section" id="join">
             <h2><i class="fas fa-door-open"></i> 如何加入我们</h2>
-            
-            <div class="server-address">mc.wdfwdf.qzz.io</div>
-            
-            <p class="version-note">游戏版本：1.20.1 ~ 1.21.x (推荐使用最新版)</p>
             
             <div class="steps">
                 <div class="step">
@@ -555,7 +725,7 @@
             <div class="qq-group">
                 <i class="fab fa-qq"></i>
                 <h3>官方QQ群</h3>
-                <div class="qq-group-number">1037898212</div>
+                <div class="qq-group-number">183611495</div>
                 <p class="qq-group-desc">加入我们的官方QQ群，获取最新公告、与玩家交流、获得技术支持！</p>
             </div>
             
@@ -582,110 +752,145 @@
             </div>
         </section>
 
-        <section class="faq">
-            <h2><i class="fas fa-question-circle"></i> 温馨提示与常见问题</h2>
+        <!-- 合并后的常见问题与承诺部分 -->
+        <section class="faq-commitment-section" id="faq-commitment">
+            <h2><i class="fas fa-info-circle"></i> 常见问题与服务器承诺</h2>
             
-            <div class="faq-item">
-                <div class="faq-question"><i class="fas fa-question"></i> 服务器有正版验证吗？</div>
-                <div class="faq-answer">
-                    <p>我们支持并推荐正版，但为方便更多玩家，也提供了离线模式登录。使用非正版账号的玩家可能需要简单的注册/登录流程。</p>
+            <div class="faq-commitment-grid">
+                <div class="faq-column">
+                    <h3><i class="fas fa-question-circle"></i> 温馨提示与常见问题</h3>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question"><i class="fas fa-question"></i> 服务器有正版验证吗？</div>
+                        <div class="faq-answer">
+                            <p>我们支持并推荐正版，但为方便更多玩家，也提供了离线模式登录。使用非正版账号的玩家可能需要简单的注册/登录流程。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question"><i class="fas fa-question"></i> 服务器会重置吗？</div>
+                        <div class="faq-answer">
+                            <p>主世界永不删档。只有当遇到无法修复的重大问题时，才会在经过社区投票后考虑重置，并尽可能提供数据迁移方案。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question"><i class="fas fa-question"></i> 遇到玩家违规怎么办？</div>
+                        <div class="faq-answer">
+                            <p>请及时在QQ联系管理员，并提供截图/录像等证据。我们会尽快处理违规行为，确保服务器环境的公平友好。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question"><i class="fas fa-question"></i> 服务器支持哪些版本？</div>
+                        <div class="faq-answer">
+                            <p>我们支持1.20.1至1.21.x版本，推荐使用最新版本以获得最佳游戏体验。不同版本间可能会有细微差异，但核心功能保持一致。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question"><i class="fas fa-question"></i> 如何获得技术支持？</div>
+                        <div class="faq-answer">
+                            <p>您可以通过游戏内/help命令、加入官方QQ群或发送游戏内邮件来获取技术支持。我们的管理员会尽快回复您的问题。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="commitment-column">
+                    <h3><i class="fas fa-heart"></i> 我们的承诺</h3>
+                    
+                    <div class="commitment-content">
+                        <p>我们坚信，一个优秀的Minecraft服务器不在于最花哨的功能，而在于一个稳定、公平和友善的社区。PSG服务器团队始终致力于：</p>
+                        
+                        <p><i class="fas fa-check"></i> <strong>长期稳定运营</strong> - 主世界永不删档，让您的每一次投入都有价值</p>
+                        
+                        <p><i class="fas fa-check"></i> <strong>公平游戏环境</strong> - 拒绝任何形式的Pay-to-Win，所有玩家平等享受游戏乐趣</p>
+                        
+                        <p><i class="fas fa-check"></i> <strong>优质游戏体验</strong> - 基于Paper核心优化，提供流畅稳定的游戏环境</p>
+                        
+                        <p><i class="fas fa-check"></i> <strong>友善社区氛围</strong> - 鼓励玩家互助合作，共同打造和谐的游戏社区</p>
+                        
+                        <p><i class="fas fa-check"></i> <strong>及时技术支持</strong> - 管理员团队随时待命，解决您遇到的各类问题</p>
+                        
+                        <p><i class="fas fa-check"></i> <strong>持续更新维护</strong> - 定期更新插件和优化服务器性能，确保最佳体验</p>
+                        
+                        <p class="highlight">期待在「PSG」与你相遇，共同打造属于我们的奇妙世界！</p>
+                        
+                        <p class="highlight">服务器团队 谨致</p>
+                    </div>
                 </div>
             </div>
-            
-            <div class="faq-item">
-                <div class="faq-question"><i class="fas fa-question"></i> 服务器会重置吗？</div>
-                <div class="faq-answer">
-                    <p>主世界永不删档。只有当遇到无法修复的重大问题时，才会在经过社区投票后考虑重置，并尽可能提供数据迁移方案。</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question"><i class="fas fa-question"></i> 遇到玩家违规怎么办？</div>
-                <div class="faq-answer">
-                    <p>请及时在QQ联系管理员，并提供截图/录像等证据。</p>
-                </div>
-            </div>
-        </section>
-        
-        <section class="closing">
-            <h2><i class="fas fa-heart"></i> 我们的承诺</h2>
-            <p>我们坚信，一个优秀的Minecraft服务器不在于最花哨的功能，而在于一个稳定、公平和友善的社区。期待在「PSG」与你相遇，共同打造属于我们的奇妙世界！</p>
-            <p class="highlight">服务器团队 谨致</p>
         </section>
 
         <footer>
-            <p>© 2025 PSG服务器团队 | 公平友好的Minecraft生存体验</p>
-            <p>官方QQ群: 1037898212 | 本服务器为公益性质，无任何付费变强机制</p>
+            <p>© 2023 PSG服务器团队 | 公平友好的Minecraft生存体验</p>
+            <p>官方QQ群: 183611495 | 本服务器为公益性质，无任何付费变强机制</p>
         </footer>
     </div>
 
     <script>
-        // 图片加载优化
-        document.addEventListener('DOMContentLoaded', function() {
-            // 显示加载进度
-            const loadingBar = document.getElementById('loading');
-            loadingBar.style.transform = 'scaleX(1)';
-            
-            // 预加载图片
-            const images = [
-                'images/background.webp',
-                'images/background.png',
-                'images/apple-touch-icon.png'
-            ];
-            
-            let loadedCount = 0;
-            images.forEach(src => {
-                const img = new Image();
-                img.onload = img.onerror = () => {
-                    loadedCount++;
-                    const progress = loadedCount / images.length;
-                    loadingBar.style.transform = `scaleX(${progress})`;
-                    
-                    if (loadedCount === images.length) {
-                        setTimeout(() => {
-                            loadingBar.style.opacity = '0';
-                            setTimeout(() => loadingBar.remove(), 500);
-                        }, 300);
-                    }
-                };
-                img.src = src;
+        // 简单的FAQ交互效果
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
             });
-            
-            // 如果图片加载很快，直接隐藏加载条
-            setTimeout(() => {
-                if (loadingBar.parentElement) {
-                    loadingBar.style.opacity = '0';
-                    setTimeout(() => loadingBar.remove(), 500);
-                }
-            }, 1000);
-            
-            // 渐进式加载内容
-            if ('IntersectionObserver' in window) {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('loaded');
-                        }
-                    });
-                });
+        });
+
+        // 初始隐藏所有FAQ答案
+        document.querySelectorAll('.faq-answer').forEach(answer => {
+            answer.style.display = 'none';
+        });
+
+        // 平滑滚动导航
+        document.querySelectorAll('.nav-links a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
                 
-                document.querySelectorAll('section').forEach(section => {
-                    observer.observe(section);
-                });
-            } else {
-                // 如果不支持IntersectionObserver，直接显示所有内容
-                document.querySelectorAll('section').forEach(section => {
-                    section.classList.add('loaded');
-                });
-            }
-            
-            // FAQ交互效果
-            document.querySelectorAll('.faq-question').forEach(question => {
-                question.addEventListener('click', () => {
-                    const answer = question.nextElementSibling;
-                    answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
-                });
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 移动端点击后关闭菜单
+                    if (window.innerWidth <= 768) {
+                        document.querySelector('.nav-links').classList.remove('active');
+                    }
+                }
             });
+        });
+
+        // 导航项高亮
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                    currentSection = '#' + section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // 移动端菜单切换
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
         });
     </script>
 </body>
