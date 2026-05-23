@@ -2,8 +2,8 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
-  <title>GIF 情绪标注工作台 · 独立记忆版</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes, viewport-fit=cover">
+  <title>GIF 情绪标注工作台</title>
   <style>
     * {
       margin: 0;
@@ -53,6 +53,8 @@
       min-height: 0;
       overflow: hidden;
     }
+
+    /* ---------- 电脑端侧边栏 ---------- */
     .file-panel {
       width: 260px;
       border-right: 1px solid #e2e8f0;
@@ -88,6 +90,10 @@
       transition: background 0.2s;
       flex: 1;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
     }
     .clear-btn {
       background: #ef4444;
@@ -152,6 +158,8 @@
       padding: 30px 10px;
       font-size: 0.85rem;
     }
+
+    /* ---------- 右侧标注区 ---------- */
     .right-panel {
       flex: 1;
       padding: 20px 24px;
@@ -360,10 +368,142 @@
     }
     .tip-box strong { color: #b45309; }
 
-    @media (max-width: 700px) {
-      body { padding: 8px; }
-      .main-area { flex-direction: column; }
-      .file-panel { width: 100%; border-right: none; border-bottom: 1px solid #e2e8f0; max-height: 40vh; }
+    /* ==================== 手机端适配 ==================== */
+    @media (max-width: 768px), (pointer: coarse) and (max-width: 1024px) {
+      body {
+        padding: 8px;
+        align-items: stretch;
+      }
+      .workspace {
+        border-radius: 20px;
+        height: 100%;
+      }
+      .header {
+        padding: 14px 16px 10px;
+      }
+      .header h1 {
+        font-size: 1.4rem;
+        gap: 6px;
+      }
+      .header .subtitle {
+        font-size: 0.8rem;
+        margin-top: 2px;
+      }
+
+      /* 主区域变为纵向，文件列表在上方 */
+      .main-area {
+        flex-direction: column;
+      }
+
+      /* 文件面板：可滚动横向文件列表 */
+      .file-panel {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+        flex-direction: column;
+        padding: 10px 12px;
+        max-height: 35vh;
+        overflow-y: auto;
+        flex-shrink: 0;
+      }
+      .file-panel h3 {
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+      }
+      .button-group {
+        margin-bottom: 8px;
+      }
+      .load-btn, .clear-btn {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+        border-radius: 12px;
+      }
+      .file-list {
+        flex: 1 1 auto;
+        max-height: 200px; /* 限制文件列表高度，保证内部滚动 */
+        overflow-y: auto;
+      }
+      .file-list li {
+        padding: 12px 12px;
+        font-size: 0.85rem;
+      }
+      .delete-file-btn {
+        font-size: 1.4rem;
+        padding: 4px 8px;
+      }
+
+      /* 右侧标注区域 */
+      .right-panel {
+        padding: 12px 14px;
+        gap: 12px;
+        overflow-y: auto;
+        flex: 1;
+      }
+      .preview-area {
+        min-height: 140px;
+        border-radius: 12px;
+      }
+      .preview-area img {
+        max-height: 180px;
+      }
+      .annotation-builder {
+        padding: 12px;
+      }
+      .builder-header {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .add-group-btn {
+        padding: 8px 14px;
+        font-size: 0.8rem;
+      }
+      .group-card {
+        padding: 12px;
+      }
+      .tag-input-wrap input {
+        width: 70px;
+        font-size: 0.85rem;
+      }
+      .suggest-tags {
+        gap: 4px;
+      }
+      .suggest-tag {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+      }
+      .result-area {
+        padding: 12px 14px;
+      }
+      .result-text {
+        font-size: 0.9rem;
+      }
+      .copy-btn {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+      }
+      .tip-box {
+        font-size: 0.75rem;
+        padding: 10px 12px;
+      }
+    }
+
+    /* 小手机优化 */
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 1.2rem;
+      }
+      .file-panel {
+        max-height: 30vh;
+      }
+      .file-list li {
+        padding: 10px 10px;
+      }
+      .delete-file-btn {
+        font-size: 1.3rem;
+      }
+      .tag-input-wrap input {
+        width: 60px;
+      }
     }
   </style>
 </head>
@@ -371,11 +511,11 @@
 <div class="workspace">
   <div class="header">
     <h1>🖼️ GIF 情绪标注工作台</h1>
-    <div class="subtitle">每个图片独立记忆标注 · 文件可追加 · 复制稳定</div>
+    <div class="subtitle">每个图片独立记忆 · 文件可追加 · 复制稳定</div>
   </div>
 
   <div class="main-area">
-    <!-- 左侧文件列表 -->
+    <!-- 左侧文件列表（移动端变顶部） -->
     <div class="file-panel">
       <h3>📁 图片列表</h3>
       <div class="button-group">
@@ -385,13 +525,13 @@
       <ul class="file-list" id="fileList">
         <li class="empty-message">点击“选择”或拖放添加</li>
       </ul>
-      <div style="font-size:0.7rem; color:#94a3b8; margin-top:8px;">每次选择会追加到列表</div>
+      <div style="font-size:0.7rem; color:#94a3b8; margin-top:6px;">每次选择会追加到列表</div>
     </div>
 
     <!-- 右侧预览与标注 -->
     <div class="right-panel">
       <div class="preview-area" id="previewContainer">
-        <span class="preview-placeholder">👆 点击左侧文件名预览</span>
+        <span class="preview-placeholder">👆 点击文件名预览</span>
       </div>
 
       <div class="annotation-builder">
@@ -434,10 +574,9 @@
     const globalSuggestTags = document.getElementById('globalSuggestTags');
 
     // 状态
-    let fileObjects = [];               // { name, blobUrl }
+    let fileObjects = [];
     let activeFileName = null;
     let activeBlobUrl = null;
-    // 每个文件的标注记忆
     let annotationsMap = {};
 
     const commonTags = [
@@ -447,7 +586,6 @@
       "炫耀","掩饰","自嘲","求助","威胁","敷衍","试探","得意"
     ];
 
-    // 渲染全局建议标签
     function renderGlobalSuggest() {
       globalSuggestTags.innerHTML = '';
       commonTags.forEach(tag => {
@@ -467,12 +605,9 @@
     }
 
     function ensureAtLeastOneGroup() {
-      if (groupsContainer.children.length === 0) {
-        addGroup();
-      }
+      if (groupsContainer.children.length === 0) addGroup();
     }
 
-    // 从 DOM 读取当前所有组的标签数组
     function getCurrentGroupsFromDOM() {
       const groups = [];
       const cards = groupsContainer.querySelectorAll('.group-card');
@@ -484,7 +619,6 @@
       return groups;
     }
 
-    // 保存当前文件的标注
     function saveCurrentAnnotation() {
       if (!activeFileName) return;
       const groupsData = getCurrentGroupsFromDOM();
@@ -495,7 +629,6 @@
       }
     }
 
-    // 加载指定文件的标注到界面
     function loadAnnotationForFile(fileName) {
       groupsContainer.innerHTML = '';
       const groupsData = annotationsMap[fileName];
@@ -511,7 +644,6 @@
       updateResult();
     }
 
-    // ---------- UI 组件 ----------
     function createGroupElement() {
       const card = document.createElement('div');
       card.className = 'group-card';
@@ -574,19 +706,16 @@
       updateResult();
     }
 
-    // ---------- 文件管理 ----------
     function addFiles(files) {
       const gifFiles = Array.from(files).filter(f => f.type === 'image/gif' || f.name.toLowerCase().endsWith('.gif'));
       if (gifFiles.length === 0) return;
 
       gifFiles.forEach(file => {
-        // 避免重复添加同名文件（可根据需要处理，这里直接追加）
         const blobUrl = URL.createObjectURL(file);
         fileObjects.push({ name: file.name, blobUrl });
       });
 
       renderFileList();
-      // 如果当前没有激活文件，自动激活第一个
       if (!activeFileName && fileObjects.length > 0) {
         const firstLi = fileListEl.querySelector('li');
         if (firstLi) firstLi.click();
@@ -600,11 +729,10 @@
       URL.revokeObjectURL(obj.blobUrl);
       const wasActive = (activeFileName === obj.name);
       fileObjects.splice(index, 1);
-      // 如果删除的是当前激活文件，清除激活状态
       if (wasActive) {
         activeFileName = null;
         activeBlobUrl = null;
-        previewContainer.innerHTML = '<span class="preview-placeholder">👆 点击左侧文件名预览</span>';
+        previewContainer.innerHTML = '<span class="preview-placeholder">👆 点击文件名预览</span>';
         groupsContainer.innerHTML = '';
         updateResult();
       }
@@ -616,7 +744,7 @@
       fileObjects = [];
       activeFileName = null;
       activeBlobUrl = null;
-      previewContainer.innerHTML = '<span class="preview-placeholder">👆 点击左侧文件名预览</span>';
+      previewContainer.innerHTML = '<span class="preview-placeholder">👆 点击文件名预览</span>';
       groupsContainer.innerHTML = '';
       renderFileList();
       updateResult();
@@ -648,7 +776,6 @@
         li.appendChild(delBtn);
 
         li.addEventListener('click', (e) => {
-          // 如果点击的是删除按钮，不触发选择
           if (e.target === delBtn) return;
           selectFile(index, li);
         });
@@ -658,7 +785,6 @@
 
     function selectFile(index, liElement) {
       saveCurrentAnnotation();
-
       document.querySelectorAll('.file-list li').forEach(el => el.classList.remove('active'));
       liElement.classList.add('active');
 
@@ -670,7 +796,6 @@
       loadAnnotationForFile(activeFileName);
     }
 
-    // ---------- 结果生成与复制 ----------
     function getAnnotationString() {
       const groupsData = getCurrentGroupsFromDOM();
       if (groupsData.length === 0) return '';
@@ -737,7 +862,7 @@
       }, 1500);
     }
 
-    // ---------- 事件绑定 ----------
+    // 事件绑定
     loadBtn.addEventListener('click', () => fileInput.click());
     clearAllBtn.addEventListener('click', () => {
       if (fileObjects.length > 0 && confirm('确定清空所有文件吗？')) {
@@ -748,11 +873,10 @@
     fileInput.addEventListener('change', (e) => {
       if (e.target.files.length > 0) {
         addFiles(e.target.files);
-        fileInput.value = ''; // 允许重复选择同一文件
+        fileInput.value = '';
       }
     });
 
-    // 拖放追加
     const filePanel = document.querySelector('.file-panel');
     filePanel.addEventListener('dragover', (e) => {
       e.preventDefault();
@@ -803,7 +927,6 @@
     renderGlobalSuggest();
     updateResult();
 
-    // 监听 DOM 变化自动保存
     const observer = new MutationObserver(() => {
       if (activeFileName) {
         saveCurrentAnnotation();
