@@ -54,7 +54,7 @@
       overflow: hidden;
     }
 
-    /* ---------- 电脑端侧边栏 ---------- */
+    /* 电脑端侧边栏 */
     .file-panel {
       width: 260px;
       border-right: 1px solid #e2e8f0;
@@ -78,7 +78,7 @@
       gap: 8px;
       margin-bottom: 12px;
     }
-    .load-btn, .clear-btn {
+    .load-btn, .clear-btn, .export-btn-panel {
       background: #3b82f6;
       color: white;
       border: none;
@@ -98,8 +98,13 @@
     .clear-btn {
       background: #ef4444;
     }
+    .export-btn-panel {
+      background: #8b5cf6;
+      margin-top: 8px;
+    }
     .load-btn:active { background: #2563eb; }
     .clear-btn:active { background: #dc2626; }
+    .export-btn-panel:active { background: #7c3aed; }
     .file-list {
       list-style: none;
       overflow-y: auto;
@@ -159,7 +164,7 @@
       font-size: 0.85rem;
     }
 
-    /* ---------- 右侧标注区 ---------- */
+    /* 右侧标注区 */
     .right-panel {
       flex: 1;
       padding: 20px 24px;
@@ -344,7 +349,12 @@
       word-break: break-all;
       flex: 1;
     }
-    .copy-btn {
+    .action-btns {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .copy-btn, .export-btn {
       background: #3b82f6;
       border: none;
       color: white;
@@ -354,8 +364,15 @@
       cursor: pointer;
       transition: background 0.2s;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .export-btn {
+      background: #8b5cf6;
     }
     .copy-btn:active { background: #2563eb; }
+    .export-btn:active { background: #7c3aed; }
     .tip-box {
       background: #fffbeb;
       border-left: 4px solid #f59e0b;
@@ -368,7 +385,7 @@
     }
     .tip-box strong { color: #b45309; }
 
-    /* ==================== 手机端适配 ==================== */
+    /* 手机端适配 */
     @media (max-width: 768px), (pointer: coarse) and (max-width: 1024px) {
       body {
         padding: 8px;
@@ -389,13 +406,9 @@
         font-size: 0.8rem;
         margin-top: 2px;
       }
-
-      /* 主区域变为纵向，文件列表在上方 */
       .main-area {
         flex-direction: column;
       }
-
-      /* 文件面板：可滚动横向文件列表 */
       .file-panel {
         width: 100%;
         border-right: none;
@@ -413,14 +426,14 @@
       .button-group {
         margin-bottom: 8px;
       }
-      .load-btn, .clear-btn {
+      .load-btn, .clear-btn, .export-btn-panel {
         padding: 10px 12px;
         font-size: 0.85rem;
         border-radius: 12px;
       }
       .file-list {
         flex: 1 1 auto;
-        max-height: 200px; /* 限制文件列表高度，保证内部滚动 */
+        max-height: 200px;
         overflow-y: auto;
       }
       .file-list li {
@@ -431,8 +444,6 @@
         font-size: 1.4rem;
         padding: 4px 8px;
       }
-
-      /* 右侧标注区域 */
       .right-panel {
         padding: 12px 14px;
         gap: 12px;
@@ -473,11 +484,17 @@
       }
       .result-area {
         padding: 12px 14px;
+        flex-wrap: wrap;
       }
       .result-text {
         font-size: 0.9rem;
+        width: 100%;
       }
-      .copy-btn {
+      .action-btns {
+        width: 100%;
+        justify-content: flex-end;
+      }
+      .copy-btn, .export-btn {
         padding: 10px 18px;
         font-size: 0.9rem;
       }
@@ -487,7 +504,6 @@
       }
     }
 
-    /* 小手机优化 */
     @media (max-width: 480px) {
       .header h1 {
         font-size: 1.2rem;
@@ -511,17 +527,18 @@
 <div class="workspace">
   <div class="header">
     <h1>🖼️ GIF 情绪标注工作台</h1>
-    <div class="subtitle">每个图片独立记忆 · 文件可追加 · 复制稳定</div>
+    <div class="subtitle">每个图片独立记忆 · 文件可追加 · 支持导出TXT</div>
   </div>
 
   <div class="main-area">
-    <!-- 左侧文件列表（移动端变顶部） -->
+    <!-- 左侧文件列表 -->
     <div class="file-panel">
       <h3>📁 图片列表</h3>
       <div class="button-group">
         <button class="load-btn" id="loadFilesBtn">📂 选择</button>
         <button class="clear-btn" id="clearAllBtn">🗑️ 清空</button>
       </div>
+      <button class="export-btn-panel" id="exportBtnPanel">📥 导出全部</button>
       <ul class="file-list" id="fileList">
         <li class="empty-message">点击“选择”或拖放添加</li>
       </ul>
@@ -545,7 +562,10 @@
 
       <div class="result-area">
         <span class="result-text" id="resultDisplay">—</span>
-        <button class="copy-btn" id="copyResultBtn">📋 复制</button>
+        <div class="action-btns">
+          <button class="copy-btn" id="copyResultBtn">📋 复制</button>
+          <button class="export-btn" id="exportResultBtn">📥 导出</button>
+        </div>
       </div>
 
       <div class="tip-box">
@@ -564,6 +584,7 @@
     // DOM 元素
     const loadBtn = document.getElementById('loadFilesBtn');
     const clearAllBtn = document.getElementById('clearAllBtn');
+    const exportBtnPanel = document.getElementById('exportBtnPanel');
     const fileInput = document.getElementById('fileInput');
     const fileListEl = document.getElementById('fileList');
     const previewContainer = document.getElementById('previewContainer');
@@ -571,6 +592,7 @@
     const addGroupBtn = document.getElementById('addGroupBtn');
     const resultDisplay = document.getElementById('resultDisplay');
     const copyResultBtn = document.getElementById('copyResultBtn');
+    const exportResultBtn = document.getElementById('exportResultBtn');
     const globalSuggestTags = document.getElementById('globalSuggestTags');
 
     // 状态
@@ -825,9 +847,9 @@
       }
       const doCopy = (t) => {
         navigator.clipboard.writeText(t).then(() => {
-          showCopySuccess();
+          showCopySuccess(copyResultBtn, '📋 复制');
         }).catch(() => {
-          fallbackCopy(t);
+          fallbackCopy(t, copyResultBtn, '📋 复制');
         });
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -837,7 +859,7 @@
       }
     }
 
-    function fallbackCopy(text) {
+    function fallbackCopy(text, btn, originalText) {
       const textarea = document.createElement('textarea');
       textarea.value = text;
       textarea.style.position = 'fixed';
@@ -846,19 +868,60 @@
       textarea.select();
       try {
         document.execCommand('copy');
-        showCopySuccess();
+        showCopySuccess(btn, originalText);
       } catch (err) {
         alert('复制失败，请手动复制');
       }
       document.body.removeChild(textarea);
     }
 
-    function showCopySuccess() {
-      copyResultBtn.textContent = '✅ 已复制';
-      copyResultBtn.style.background = '#10b981';
+    function showCopySuccess(btn, originalText) {
+      btn.textContent = '✅ 已复制';
+      btn.style.background = '#10b981';
       setTimeout(() => {
-        copyResultBtn.textContent = '📋 复制';
-        copyResultBtn.style.background = '#3b82f6';
+        btn.textContent = originalText;
+        btn.style.background = '';
+      }, 1500);
+    }
+
+    // 导出功能
+    function exportAnnotations() {
+      // 保存当前文件标注（如果正在编辑）
+      saveCurrentAnnotation();
+
+      const lines = [];
+      fileObjects.forEach(obj => {
+        const groupsData = annotationsMap[obj.name];
+        if (groupsData && groupsData.length > 0) {
+          const annotation = groupsData.map(tags => tags.join('+')).join('/');
+          lines.push(`${obj.name}:${annotation}`);
+        }
+      });
+
+      if (lines.length === 0) {
+        alert('没有标注内容可导出（所有文件均为空）');
+        return;
+      }
+
+      const content = lines.join('\n');
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'annotations.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      // 轻提示
+      const btn = document.activeElement?.closest('button') || exportBtnPanel;
+      const original = btn.textContent;
+      btn.textContent = '✅ 已导出';
+      btn.style.background = '#10b981';
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.style.background = '';
       }, 1500);
     }
 
@@ -911,6 +974,8 @@
     });
 
     copyResultBtn.addEventListener('click', copyResult);
+    exportResultBtn.addEventListener('click', exportAnnotations);
+    exportBtnPanel.addEventListener('click', exportAnnotations);
 
     // 初始化
     if (!document.getElementById('tagSuggestions')) {
