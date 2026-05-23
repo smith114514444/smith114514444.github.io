@@ -1,1035 +1,712 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2025跨2026 跨年倒计时</title>
-    <!-- 引入优美的中文字体 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Noto Sans SC', sans-serif;
-        }
-
-        body {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow-x: hidden;
-            color: #fff;
-            background-color: #0a0e1a;
-        }
-
-        /* 导航栏样式 */
-        .navbar {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 900;
-            background: linear-gradient(90deg, #ff6b6b, #ffd93d);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-link {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-        }
-
-        .nav-link:hover {
-            color: #ffd93d;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .github-btn {
-            background: linear-gradient(90deg, #333, #555);
-            color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .github-btn:hover {
-            background: linear-gradient(90deg, #555, #777);
-        }
-
-        /* 背景图样式 - 使用您的1.png */
-        .bg-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -3;
-        }
-
-        .bg-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.7;
-        }
-
-        /* 背景遮罩 - 增强文字可读性 */
-        .bg-mask {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(106, 17, 203, 0.7) 0%, rgba(37, 117, 252, 0.7) 100%);
-            z-index: -2;
-        }
-
-        /* 玻璃态模糊背景层 */
-        .glass-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(5px);
-            z-index: -1;
-        }
-
-        /* 主容器 */
-        .main-container {
-            text-align: center;
-            padding: 2rem;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            flex: 1;
-        }
-
-        /* 标题样式 */
-        .title-container {
-            margin: 2rem 0 3rem;
-            text-align: center;
-        }
-
-        .main-title {
-            font-size: 3.5rem;
-            font-weight: 900;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
-            letter-spacing: 3px;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcf7f, #4d96ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: titleGlow 3s ease-in-out infinite alternate;
-        }
-
-        .sub-title {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            font-weight: 300;
-            letter-spacing: 1px;
-        }
-
-        /* 倒计时容器 */
-        .countdown-container {
-            margin-bottom: 3rem;
-        }
-
-        /* 倒计时数字卡片 */
-        .countdown-cards {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 1.8rem 1.2rem;
-            border-radius: 15px;
-            min-width: 140px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.7s;
-        }
-
-        .card:hover::before {
-            left: 100%;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        .card-number {
-            font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-
-        .card-text {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            font-weight: 400;
-        }
-
-        /* 倒计时结束提示 */
-        .countdown-end {
-            font-size: 1.2rem;
-            opacity: 0.8;
-            font-weight: 300;
-            letter-spacing: 1px;
-        }
-
-        /* 庆祝语容器 - 初始隐藏 */
-        .celebration-container {
-            display: none;
-            text-align: center;
-            padding: 3rem;
-            border-radius: 25px;
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(15px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            max-width: 800px;
-            margin: 0 auto 3rem;
-            animation: fadeInScale 1s ease forwards;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .celebration-container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(
-                transparent, 
-                rgba(255, 215, 0, 0.8), 
-                transparent 30%
-            );
-            animation: rotate 4s linear infinite;
-            z-index: -1;
-        }
-
-        .celebration-title {
-            font-size: 3.5rem;
-            font-weight: 900;
-            text-shadow: 0 0 25px rgba(255, 215, 0, 1);
-            margin-bottom: 1.5rem;
-            letter-spacing: 8px;
-            background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcf7f);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: textGlow 2s ease-in-out infinite alternate;
-        }
-
-        .celebration-desc {
-            font-size: 1.8rem;
-            opacity: 0.95;
-            margin-bottom: 2.5rem;
-            line-height: 1.5;
-        }
-
-        .fireworks {
-            font-size: 4.5rem;
-            animation: fireworks 1.5s ease-in-out infinite;
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .firework-item {
-            display: inline-block;
-        }
-
-        /* 贺卡弹出样式 */
-        .greeting-card {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
-            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            z-index: 2000;
-            max-width: 600px;
-            width: 90%;
-            animation: cardAppear 1s ease forwards;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            text-align: center;
-        }
-
-        .greeting-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 10px;
-            background: linear-gradient(90deg, #ffd93d, #6bcf7f, #4d96ff);
-            border-radius: 20px 20px 0 0;
-        }
-
-        .card-close {
-            position: absolute;
-            top: 1rem;
-            right: 1.5rem;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .card-close:hover {
-            transform: scale(1.2);
-        }
-
-        .card-title {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: white;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-message {
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-            color: white;
-            min-height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-
-        .new-year-btn {
-            background: linear-gradient(90deg, #4d96ff, #6bcf7f);
-            color: white;
-            border: none;
-            padding: 1rem 2.5rem;
-            font-size: 1.2rem;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            font-weight: 600;
-            margin-top: 1rem;
-        }
-
-        .new-year-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        /* 新年寄语容器 - 初始隐藏 */
-        .wishes-container {
-            display: none;
-            margin-top: 3rem;
-            padding: 2.5rem;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            max-width: 800px;
-            margin: 0 auto 3rem;
-            animation: fadeInUp 1s ease forwards;
-        }
-
-        .wishes-title {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-            color: #ffd93d;
-        }
-
-        .wishes-text {
-            font-size: 1.3rem;
-            line-height: 1.6;
-            opacity: 0.9;
-        }
-
-        /* 微信添加区域 */
-        .wechat-section {
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 20px;
-            padding: 2.5rem;
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .wechat-title {
-            font-size: 2rem;
-            color: #ffd93d;
-            margin-bottom: 0.5rem;
-        }
-
-        .wechat-desc {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .wechat-image-container {
-            width: 250px;
-            height: 250px;
-            border-radius: 15px;
-            overflow: hidden;
-            border: 3px solid #ffd93d;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s;
-        }
-
-        .wechat-image-container:hover {
-            transform: scale(1.05);
-        }
-
-        .wechat-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .wechat-note {
-            font-size: 1.1rem;
-            color: #aaa;
-            margin-top: 1rem;
-        }
-
-        /* 底部信息 */
-        .footer {
-            margin-top: 3rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 1rem;
-            opacity: 0.7;
-            letter-spacing: 1px;
-            text-align: center;
-        }
-
-        /* 动画定义 */
-        @keyframes fadeInScale {
-            0% {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fireworks {
-            0%, 100% {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: translateY(-20px) scale(1.2);
-                opacity: 0.9;
-            }
-        }
-
-        @keyframes titleGlow {
-            0% {
-                filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
-            }
-            100% {
-                filter: drop-shadow(0 0 20px rgba(255, 107, 107, 0.8));
-            }
-        }
-
-        @keyframes textGlow {
-            0% {
-                filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
-            }
-            100% {
-                filter: drop-shadow(0 0 20px rgba(107, 207, 127, 0.7));
-            }
-        }
-
-        @keyframes rotate {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes cardAppear {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.5);
-            }
-            70% {
-                transform: translate(-50%, -50%) scale(1.05);
-            }
-            100% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
-
-        /* 雪花样式 */
-        .snowflake {
-            position: fixed;
-            top: -10px;
-            color: #fff;
-            font-size: 1em;
-            opacity: 0.8;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* 响应式适配 */
-        @media (max-width: 992px) {
-            .main-title {
-                font-size: 2.8rem;
-            }
-            .card {
-                min-width: 120px;
-                padding: 1.5rem 1rem;
-            }
-            .card-number {
-                font-size: 3.2rem;
-            }
-            .celebration-title {
-                font-size: 2.8rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
-            }
-            
-            .nav-links {
-                gap: 1rem;
-            }
-            
-            .main-title {
-                font-size: 2.2rem;
-                letter-spacing: 2px;
-            }
-            .countdown-cards {
-                gap: 1rem;
-            }
-            .card {
-                min-width: 100px;
-                padding: 1.2rem 0.8rem;
-            }
-            .card-number {
-                font-size: 2.8rem;
-            }
-            .card-text {
-                font-size: 1.1rem;
-            }
-            .celebration-title {
-                font-size: 2.2rem;
-                letter-spacing: 5px;
-            }
-            .celebration-desc {
-                font-size: 1.5rem;
-            }
-            .fireworks {
-                font-size: 3.5rem;
-            }
-            .greeting-card {
-                padding: 2rem;
-            }
-            .card-title {
-                font-size: 2rem;
-            }
-            .card-message {
-                font-size: 1.5rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .main-container {
-                padding: 1rem;
-            }
-            .main-title {
-                font-size: 1.8rem;
-            }
-            .sub-title {
-                font-size: 1.1rem;
-            }
-            .card {
-                min-width: 80px;
-                padding: 1rem 0.6rem;
-            }
-            .card-number {
-                font-size: 2.2rem;
-            }
-            .card-text {
-                font-size: 1rem;
-            }
-            .celebration-title {
-                font-size: 1.8rem;
-                letter-spacing: 3px;
-            }
-            .celebration-desc {
-                font-size: 1.3rem;
-            }
-            .fireworks {
-                font-size: 2.8rem;
-                gap: 1rem;
-            }
-            .wechat-section {
-                padding: 1.5rem;
-            }
-            .wechat-image-container {
-                width: 200px;
-                height: 200px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
+  <title>GIF 情绪标注工作台 · 独立记忆版</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+    .workspace {
+      max-width: 1100px;
+      width: 100%;
+      background: white;
+      border-radius: 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .header {
+      padding: 24px 28px 16px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .header h1 {
+      font-size: 1.9rem;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header .subtitle {
+      color: #475569;
+      margin-top: 6px;
+      font-size: 0.95rem;
+    }
+    .main-area {
+      display: flex;
+      flex: 1;
+      min-height: 600px;
+      flex-wrap: wrap;
+    }
+    .file-panel {
+      width: 260px;
+      border-right: 1px solid #e2e8f0;
+      background: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+    }
+    .file-panel h3 {
+      font-size: 1rem;
+      color: #334155;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .load-btn {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+      width: 100%;
+      transition: background 0.2s;
+    }
+    .load-btn:active { background: #2563eb; }
+    .file-list {
+      list-style: none;
+      overflow-y: auto;
+      flex: 1;
+      border-radius: 12px;
+      background: white;
+      border: 1px solid #e2e8f0;
+    }
+    .file-list li {
+      padding: 12px 14px;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.9rem;
+      color: #1e293b;
+      cursor: pointer;
+      transition: background 0.1s;
+      word-break: break-all;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .file-list li:hover { background: #eff6ff; }
+    .file-list li.active {
+      background: #dbeafe;
+      font-weight: 600;
+      color: #1e40af;
+      border-left: 4px solid #3b82f6;
+    }
+    .empty-message {
+      color: #94a3b8;
+      text-align: center;
+      padding: 30px 10px;
+      font-size: 0.85rem;
+    }
+    .right-panel {
+      flex: 1;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      overflow-y: auto;
+    }
+    .preview-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f1f5f9;
+      border-radius: 16px;
+      min-height: 200px;
+      border: 2px dashed #cbd5e1;
+      padding: 10px;
+    }
+    .preview-area img {
+      max-width: 100%;
+      max-height: 240px;
+      border-radius: 12px;
+      object-fit: contain;
+    }
+    .preview-placeholder {
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+    .annotation-builder {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 18px;
+    }
+    .builder-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .builder-header h4 {
+      font-size: 1rem;
+      color: #0f172a;
+    }
+    .add-group-btn {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .add-group-btn:active { background: #059669; }
+    .groups-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .group-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 14px;
+      position: relative;
+    }
+    .group-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+      color: #475569;
+    }
+    .group-label {
+      font-weight: 600;
+      background: #e0e7ff;
+      padding: 2px 10px;
+      border-radius: 12px;
+      color: #3730a3;
+      font-size: 0.8rem;
+    }
+    .remove-group-btn {
+      margin-left: auto;
+      background: none;
+      border: 1px solid #fecaca;
+      color: #b91c1c;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .remove-group-btn:active { background: #fee2e2; }
+    .tags-area {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .tag-input-wrap {
+      display: flex;
+      align-items: center;
+      background: white;
+      border: 1px solid #cbd5e1;
+      border-radius: 24px;
+      padding: 2px 2px 2px 12px;
+      transition: border-color 0.2s;
+    }
+    .tag-input-wrap:focus-within {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+    }
+    .tag-input-wrap input {
+      border: none;
+      outline: none;
+      font-size: 0.9rem;
+      padding: 6px 0;
+      width: 90px;
+      background: transparent;
+    }
+    .tag-input-wrap .remove-tag-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 4px 10px;
+      border-radius: 20px;
+      line-height: 1;
+    }
+    .tag-input-wrap .remove-tag-btn:hover { color: #ef4444; }
+    .add-tag-btn {
+      background: white;
+      border: 1px dashed #94a3b8;
+      color: #475569;
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .add-tag-btn:active { background: #f1f5f9; }
+    .suggest-tags {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .suggest-tag {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .suggest-tag:active { background: #3b82f6; color: white; border-color: #3b82f6; }
+    .result-area {
+      background: #0f172a;
+      border-radius: 16px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .result-text {
+      font-family: 'SF Mono', 'Menlo', monospace;
+      font-size: 1rem;
+      color: #e2e8f0;
+      word-break: break-all;
+      flex: 1;
+    }
+    .copy-btn {
+      background: #3b82f6;
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 24px;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .copy-btn:active { background: #2563eb; }
+    .tip-box {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      color: #78350f;
+      line-height: 1.6;
+    }
+    .tip-box strong { color: #b45309; }
+    @media (max-width: 700px) {
+      .main-area { flex-direction: column; }
+      .file-panel { width: 100%; border-right: none; border-bottom: 1px solid #e2e8f0; }
+    }
+  </style>
 </head>
 <body>
-    <!-- 导航栏 -->
-    <nav class="navbar">
-        <div class="logo">2025→2026</div>
-        <div class="nav-links">
-            <a href="#home" class="nav-link">首页</a>
-            <a href="#countdown-section" class="nav-link">倒计时</a>
-            <a href="#wechat" class="nav-link">添加微信</a>
-            <a href="https://github.com" target="_blank" class="nav-link github-btn">
-                <i class="fab fa-github"></i> GitHub
-            </a>
-        </div>
-    </nav>
+<div class="workspace">
+  <div class="header">
+    <h1>🖼️ GIF 情绪标注工作台</h1>
+    <div class="subtitle">每个图片独立记忆标注，切换文件自动保存</div>
+  </div>
 
-    <!-- 背景容器 -->
-    <div class="bg-container">
-        <!-- 请确保1.png与HTML文件在同一目录，或修改为正确的图片路径 -->
-        <img src="1.png" alt="跨年背景" class="bg-img">
-    </div>
-    <div class="bg-mask"></div>
-    <div class="glass-layer"></div>
-
-    <!-- 主容器 -->
-    <div class="main-container" id="home">
-        <!-- 标题区域 -->
-        <div class="title-container">
-            <h1 class="main-title">2025 → 2026 跨年倒计时</h1>
-            <p class="sub-title">告别2025，迎接崭新2026</p>
-        </div>
-
-        <!-- 倒计时容器 -->
-        <div class="countdown-container" id="countdown-section">
-            <div class="countdown-cards">
-                <div class="card">
-                    <div class="card-number" id="days">00</div>
-                    <div class="card-text">天</div>
-                </div>
-                <div class="card">
-                    <div class="card-number" id="hours">00</div>
-                    <div class="card-text">时</div>
-                </div>
-                <div class="card">
-                    <div class="card-number" id="minutes">00</div>
-                    <div class="card-text">分</div>
-                </div>
-                <div class="card">
-                    <div class="card-number" id="seconds">00</div>
-                    <div class="card-text">秒</div>
-                </div>
-            </div>
-            <p class="countdown-end">距离2026年元旦还有</p>
-        </div>
-
-        <!-- 庆祝语容器 -->
-        <div class="celebration-container" id="celebration">
-            <h1 class="celebration-title">🎉 新年快乐 2026 🎉</h1>
-            <p class="celebration-desc">愿新的一年，万事顺遂，平安喜乐，梦想成真！</p>
-            <div class="fireworks">
-                <div class="firework-item">🎆</div>
-                <div class="firework-item">🎇</div>
-                <div class="firework-item">✨</div>
-                <div class="firework-item">🎊</div>
-                <div class="firework-item">🎉</div>
-            </div>
-            <button class="new-year-btn" id="showWishesBtn">查看新年寄语</button>
-        </div>
-
-        <!-- 新年寄语容器 - 初始隐藏 -->
-        <div class="wishes-container" id="wishes">
-            <h2 class="wishes-title">新年寄语</h2>
-            <p class="wishes-text">
-                2026年，愿我们都能放下过去的遗憾，拥抱新的机遇。愿每一天都充满希望与阳光，每一刻都洋溢着幸福与欢笑。愿我们追寻梦想的脚步永不停歇，心中的热爱永不褪色。新年新气象，愿大家都能成为更好的自己！
-            </p>
-        </div>
-
-        <!-- 微信添加区域 -->
-        <div class="wechat-section" id="wechat">
-            <h2 class="wechat-title">添加微信好友</h2>
-            <p class="wechat-desc">扫描下方二维码添加我的微信，一起交流分享新年祝福！</p>
-            <div class="wechat-image-container">
-                <!-- 请确保2.png与HTML文件在同一目录，或修改为正确的图片路径 -->
-                <img src="2.png" alt="微信二维码" class="wechat-img">
-            </div>
-            <p class="wechat-note">添加时请备注"新年快乐"</p>
-        </div>
-
-        <!-- 页脚 -->
-        <div class="footer">
-            <p>© 2025-2026 跨年倒计时 | 设计灵感来自新年祝福</p>
-        </div>
+  <div class="main-area">
+    <!-- 左侧文件列表 -->
+    <div class="file-panel">
+      <h3>📁 图片列表</h3>
+      <button class="load-btn" id="loadFilesBtn">📂 选择 GIF 文件</button>
+      <ul class="file-list" id="fileList">
+        <li class="empty-message">尚未加载文件</li>
+      </ul>
+      <div style="font-size:0.7rem; color:#94a3b8; margin-top:8px;">可多选，或拖放文件夹</div>
     </div>
 
-    <!-- 贺卡弹出 -->
-    <div class="greeting-card" id="greetingCard">
-        <button class="card-close" id="closeCard">×</button>
-        <h2 class="card-title">新年祝福 🎊</h2>
-        <div class="card-message" id="cardMessage">加载祝福中...</div>
-        <button class="new-year-btn" id="newGreetingBtn">换一条祝福</button>
+    <!-- 右侧预览与标注 -->
+    <div class="right-panel">
+      <div class="preview-area" id="previewContainer">
+        <span class="preview-placeholder">👆 点击左侧文件名预览</span>
+      </div>
+
+      <div class="annotation-builder">
+        <div class="builder-header">
+          <h4>🏷️ 标注构建器</h4>
+          <button class="add-group-btn" id="addGroupBtn">➕ 添加“或”选项</button>
+        </div>
+        <div class="groups-container" id="groupsContainer">
+          <!-- 动态组 -->
+        </div>
+        <div class="suggest-tags" id="globalSuggestTags">
+          <!-- 常用标签建议 -->
+        </div>
+      </div>
+
+      <div class="result-area">
+        <span class="result-text" id="resultDisplay">—</span>
+        <button class="copy-btn" id="copyResultBtn">📋 复制</button>
+      </div>
+
+      <div class="tip-box">
+        <strong>💡 小贴士：</strong>
+        “或” ( / ) 用于描述拿不准、矛盾的情绪或不同可能。<br>
+        “且” ( + ) 表示必须同时满足，只绑定它前后的词。<br>
+        遇到别扭、强颜欢笑？用 / 分隔不同解读：<code>强颜+开心 / 略带+伤心</code><br>
+        不确定就多用 / 给出备选，最后再整理。
+      </div>
     </div>
+  </div>
+</div>
 
-    <script>
-        // 目标时间：2026年1月1日 00:00:00
-        const targetDate = new Date('2026-01-01 00:00:00').getTime();
+<input type="file" id="fileInput" multiple accept="image/gif" style="display:none">
 
-        // 获取DOM元素
-        const countdownEl = document.getElementById('countdown-section');
-        const celebrationEl = document.getElementById('celebration');
-        const wishesEl = document.getElementById('wishes');
-        const greetingCardEl = document.getElementById('greetingCard');
-        const daysEl = document.getElementById('days');
-        const hoursEl = document.getElementById('hours');
-        const minutesEl = document.getElementById('minutes');
-        const secondsEl = document.getElementById('seconds');
-        const cardMessageEl = document.getElementById('cardMessage');
-        const closeCardBtn = document.getElementById('closeCard');
-        const newGreetingBtn = document.getElementById('newGreetingBtn');
-        const showWishesBtn = document.getElementById('showWishesBtn');
+<script>
+  (function() {
+    // DOM 元素
+    const loadBtn = document.getElementById('loadFilesBtn');
+    const fileInput = document.getElementById('fileInput');
+    const fileListEl = document.getElementById('fileList');
+    const previewContainer = document.getElementById('previewContainer');
+    const groupsContainer = document.getElementById('groupsContainer');
+    const addGroupBtn = document.getElementById('addGroupBtn');
+    const resultDisplay = document.getElementById('resultDisplay');
+    const copyResultBtn = document.getElementById('copyResultBtn');
+    const globalSuggestTags = document.getElementById('globalSuggestTags');
 
-        // 随机祝福语数组（20条不同祝福）
-        const greetings = [
-            "愿新的一年，万事顺遂，平安喜乐，梦想成真！",
-            "2026年，愿你所求皆如愿，所行皆坦途，多喜乐，长安宁！",
-            "新年新气象，愿你我都能成为更好的自己，追寻梦想的脚步永不停歇！",
-            "祝福你在新的一年里，眼里有光，心中有爱，行中有善，脚下有远方！",
-            "愿2026年的每一天都充满阳光，每一刻都洋溢着幸福与欢笑！",
-            "新的一年，愿山河无恙，人间皆安，愿你笑口常开，好运连连！",
-            "愿新年胜旧年，将来胜过往，愿你与美好不期而遇，与幸运撞个满怀！",
-            "2026，愿你遍历山河，仍觉人间值得；愿你历经千帆，归来仍是少年！",
-            "新的一年，愿日子如熹光，温柔又安详；你我赤诚且勇敢，欣喜也在望！",
-            "愿新年，胜旧年，有趣有盼，无灾无难，岁岁常欢愉，年年皆胜意！",
-            "2026年，愿你心中充满希望，眼里装满星光，生活处处是美好！",
-            "愿新的一年，三餐四季，温暖有趣，家人闲坐，灯火可亲，平安喜乐！",
-            "2026，愿你眼中有星辰大海，心中有繁花似锦，所愿皆所得！",
-            "新的一年，愿你有诗也有酒，有远方也有故友，有最执着的美好！",
-            "愿2026年的你，不为往事扰，只为余生笑，每一天都奔走在热爱里！",
-            "新的一年，愿你万事顺遂，毫无蹉跎，平安喜乐，得偿所愿！",
-            "2026，愿你所遇皆温暖，所向皆希望，生活明朗，万物可爱！",
-            "愿新年，存远志，常读书，乐交友，惜四时，岁岁皆欢愉！",
-            "新的一年，愿你手捧鲜花芬芳岁月，愿你脚踏山河繁华人生！",
-            "2026，愿你出走半生，归来仍是少年；愿你看透不美好，依然相信美好！"
-        ];
+    // 状态
+    let fileObjects = [];               // { name, blobUrl }
+    let activeFileName = null;
+    let activeBlobUrl = null;
+    // 每个文件的标注记忆：{ "1.gif": [ ["开心","抬手"], ["喜悦"] ] }
+    let annotationsMap = {};
 
-        // 显示随机祝福语
-        function showRandomGreeting() {
-            const randomIndex = Math.floor(Math.random() * greetings.length);
-            cardMessageEl.textContent = greetings[randomIndex];
-        }
+    const commonTags = [
+      "开心","喜悦","伤心","愤怒","惊讶","厌恶","恐惧","中性",
+      "微","略","非常","极度","强行","故作","明显","略带","自然",
+      "抬手","叉腰","瞪眼","皱眉","撇嘴","转头","低头","捂脸",
+      "炫耀","掩饰","自嘲","求助","威胁","敷衍","试探","得意"
+    ];
 
-        // 显示贺卡
-        function showGreetingCard() {
-            showRandomGreeting();
-            greetingCardEl.style.display = 'block';
-            // 禁止背景滚动
-            document.body.style.overflow = 'hidden';
-        }
-
-        // 隐藏贺卡
-        function hideGreetingCard() {
-            greetingCardEl.style.display = 'none';
-            // 恢复背景滚动
-            document.body.style.overflow = 'auto';
-        }
-
-        // 倒计时更新函数
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-
-            // 计算天、时、分、秒
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            // 更新DOM
-            daysEl.innerText = formatNumber(days);
-            hoursEl.innerText = formatNumber(hours);
-            minutesEl.innerText = formatNumber(minutes);
-            secondsEl.innerText = formatNumber(seconds);
-
-            // 倒计时结束
-            if (distance < 0) {
-                clearInterval(countdownInterval);
-                countdownEl.style.display = 'none';
-                celebrationEl.style.display = 'block';
-                
-                // 延迟1秒后显示贺卡
-                setTimeout(() => {
-                    showGreetingCard();
-                    startCelebration();
-                }, 1000);
-            }
-        }
-
-        // 数字格式化：补零
-        function formatNumber(num) {
-            return num < 10 ? '0' + num : num;
-        }
-
-        // 庆祝效果
-        function startCelebration() {
-            // 播放庆祝音效（需要用户交互，这里只创建，实际播放需要用户点击）
-            const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-happy-new-year-horn-618.mp3');
-            audio.volume = 0.5;
-            
-            // 在用户与页面交互后播放音乐
-            document.addEventListener('click', function playAudioOnce() {
-                audio.play().catch(e => console.log("音频播放需要用户交互"));
-                document.removeEventListener('click', playAudioOnce);
-            });
-            
-            // 创建庆祝粒子
-            createCelebrationParticles();
-        }
-
-        // 创建庆祝粒子
-        function createCelebrationParticles() {
-            const particleTypes = ['🎉', '🎊', '✨', '🎆', '🎇', '⭐', '🌟'];
-            const colors = ['#FF6B6B', '#FFD93D', '#6BCF7F', '#4D96FF', '#9D65C9', '#FF8E53'];
-            
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    createParticle(particleTypes, colors);
-                }, i * 50);
-            }
-        }
-
-        // 创建单个粒子
-        function createParticle(particleTypes, colors) {
-            const particle = document.createElement('div');
-            particle.classList.add('snowflake');
-            
-            // 随机选择粒子类型
-            const particleType = particleTypes[Math.floor(Math.random() * particleTypes.length)];
-            particle.innerHTML = particleType;
-            
-            // 随机大小
-            const size = Math.random() * 25 + 15;
-            particle.style.fontSize = `${size}px`;
-            
-            // 随机起始位置
-            particle.style.left = `${Math.random() * 100}vw`;
-            
-            // 随机颜色（部分粒子）
-            if (Math.random() > 0.5) {
-                particle.style.color = colors[Math.floor(Math.random() * colors.length)];
-            }
-            
-            // 随机动画时长
-            const duration = Math.random() * 3 + 2;
-            
-            // 随机动画
-            const animationName = Math.random() > 0.5 ? 'fall' : 'fallSide';
-            
-            // 设置动画
-            particle.style.animation = `${animationName} ${duration}s linear forwards`;
-            
-            document.body.appendChild(particle);
-            
-            // 粒子移除
-            setTimeout(() => {
-                particle.remove();
-            }, duration * 1000);
-        }
-
-        // 定义粒子下落动画
-        const style = document.createElement('style');
-        style.innerHTML = `
-            @keyframes fall {
-                0% {
-                    transform: translateY(-10px) rotate(0deg);
-                    opacity: 1;
-                }
-                100% {
-                    transform: translateY(100vh) rotate(360deg);
-                    opacity: 0;
-                }
-            }
-            
-            @keyframes fallSide {
-                0% {
-                    transform: translate(-50px, -10px) rotate(0deg);
-                    opacity: 1;
-                }
-                100% {
-                    transform: translate(50px, 100vh) rotate(360deg);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // 事件监听
-        closeCardBtn.addEventListener('click', hideGreetingCard);
-        newGreetingBtn.addEventListener('click', showRandomGreeting);
-        showWishesBtn.addEventListener('click', () => {
-            wishesEl.style.display = 'block';
-            wishesEl.scrollIntoView({ behavior: 'smooth' });
+    // 渲染全局建议标签
+    function renderGlobalSuggest() {
+      globalSuggestTags.innerHTML = '';
+      commonTags.forEach(tag => {
+        const span = document.createElement('span');
+        span.className = 'suggest-tag';
+        span.textContent = tag;
+        span.addEventListener('click', () => {
+          if (!activeFileName) return;
+          ensureAtLeastOneGroup();
+          const groups = getCurrentGroupsFromDOM();
+          if (groups.length === 0) return;
+          const lastGroup = groups[groups.length-1];
+          addTagToGroup(lastGroup, tag);
         });
+        globalSuggestTags.appendChild(span);
+      });
+    }
 
-        // 点击贺卡外部关闭贺卡
-        greetingCardEl.addEventListener('click', (e) => {
-            if (e.target === greetingCardEl) {
-                hideGreetingCard();
-            }
+    function ensureAtLeastOneGroup() {
+      if (groupsContainer.children.length === 0) {
+        addGroup();
+      }
+    }
+
+    // ---------- 当前文件标注数据的读写 ----------
+    // 从 DOM 读取当前所有组的标签数组
+    function getCurrentGroupsFromDOM() {
+      const groups = [];
+      const cards = groupsContainer.querySelectorAll('.group-card');
+      cards.forEach(card => {
+        const inputs = card.querySelectorAll('.tags-area input');
+        const tags = Array.from(inputs).map(inp => inp.value.trim()).filter(t => t !== '');
+        if (tags.length > 0) groups.push(tags);
+        else groups.push([]); // 保留空组结构，但保存时过滤掉？
+      });
+      // 过滤掉完全空的组（没有标签的组不保存）
+      return groups.filter(tags => tags.length > 0);
+    }
+
+    // 保存当前文件的标注到 annotationsMap
+    function saveCurrentAnnotation() {
+      if (!activeFileName) return;
+      const groupsData = getCurrentGroupsFromDOM();
+      if (groupsData.length === 0) {
+        delete annotationsMap[activeFileName]; // 无标注则删除记录
+      } else {
+        annotationsMap[activeFileName] = groupsData;
+      }
+    }
+
+    // 加载指定文件的标注到界面
+    function loadAnnotationForFile(fileName) {
+      // 清空当前所有组
+      groupsContainer.innerHTML = '';
+      const groupsData = annotationsMap[fileName];
+      if (groupsData && groupsData.length > 0) {
+        groupsData.forEach(tags => {
+          const card = createGroupElement();
+          groupsContainer.appendChild(card);
+          // 添加标签
+          tags.forEach(tag => addTagToGroup(card, tag));
+          // 如果该组没有任何标签（理论上不会），移除空卡片？保留由用户处理
         });
+      } else {
+        // 新建一个默认空组
+        addGroup();
+      }
+      updateResult();
+    }
 
-        // 初始化倒计时
-        updateCountdown();
-        // 每秒更新一次
-        const countdownInterval = setInterval(updateCountdown, 1000);
+    // ---------- 组 UI 构建 ----------
+    function createGroupElement() {
+      const card = document.createElement('div');
+      card.className = 'group-card';
+      card.innerHTML = `
+        <div class="group-header">
+          <span class="group-label">选项</span>
+          <span style="font-size:0.8rem; color:#64748b;">（组内用 + 连接）</span>
+          <button class="remove-group-btn">✕ 移除</button>
+        </div>
+        <div class="tags-area"></div>
+        <button class="add-tag-btn">+ 添加标签</button>
+      `;
 
-        // 创建背景雪花效果
-        function createSnowflakes() {
-            const snowflake = document.createElement('div');
-            snowflake.classList.add('snowflake');
-            snowflake.innerHTML = '❄️';
-            
-            // 随机大小
-            const size = Math.random() * 20 + 10;
-            snowflake.style.fontSize = `${size}px`;
-            
-            // 随机起始位置
-            snowflake.style.left = `${Math.random() * 100}vw`;
-            
-            // 随机透明度
-            snowflake.style.opacity = Math.random() * 0.7 + 0.3;
-            
-            // 随机动画时长
-            const duration = Math.random() * 10 + 5;
-            
-            // 随机动画
-            const animationName = Math.random() > 0.5 ? 'fall' : 'fallSide';
-            
-            // 设置动画
-            snowflake.style.animation = `${animationName} ${duration}s linear infinite`;
-            
-            document.body.appendChild(snowflake);
-            
-            // 雪花移除
-            setTimeout(() => {
-                snowflake.remove();
-            }, duration * 1000);
+      card.querySelector('.remove-group-btn').addEventListener('click', () => {
+        card.remove();
+        saveCurrentAnnotation();
+        updateResult();
+      });
+
+      card.querySelector('.add-tag-btn').addEventListener('click', () => {
+        addTagToGroup(card, '');
+      });
+      return card;
+    }
+
+    function addGroup() {
+      const card = createGroupElement();
+      groupsContainer.appendChild(card);
+      // 新组添加一个空输入框
+      addTagToGroup(card, '');
+      saveCurrentAnnotation();
+      updateResult();
+    }
+
+    function addTagToGroup(card, defaultValue = '') {
+      const tagsArea = card.querySelector('.tags-area');
+      const wrap = document.createElement('div');
+      wrap.className = 'tag-input-wrap';
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.placeholder = '输入标签';
+      input.value = defaultValue;
+      input.setAttribute('list', 'tagSuggestions');
+      input.addEventListener('input', () => {
+        saveCurrentAnnotation();
+        updateResult();
+      });
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'remove-tag-btn';
+      removeBtn.innerHTML = '×';
+      removeBtn.addEventListener('click', () => {
+        wrap.remove();
+        saveCurrentAnnotation();
+        updateResult();
+      });
+      wrap.appendChild(input);
+      wrap.appendChild(removeBtn);
+      tagsArea.appendChild(wrap);
+      if (!defaultValue) input.focus();
+      saveCurrentAnnotation();
+      updateResult();
+    }
+
+    // ---------- 文件列表与预览 ----------
+    function loadFiles(files) {
+      fileObjects.forEach(obj => URL.revokeObjectURL(obj.blobUrl));
+      fileObjects = [];
+      activeFileName = null;
+      activeBlobUrl = null;
+      previewContainer.innerHTML = '<span class="preview-placeholder">👆 点击左侧文件名预览</span>';
+      groupsContainer.innerHTML = '';
+
+      const gifFiles = Array.from(files).filter(f => f.type === 'image/gif' || f.name.toLowerCase().endsWith('.gif'));
+      if (gifFiles.length === 0) {
+        fileListEl.innerHTML = '<li class="empty-message">没有 GIF 文件</li>';
+        return;
+      }
+
+      gifFiles.forEach(file => {
+        const blobUrl = URL.createObjectURL(file);
+        fileObjects.push({ name: file.name, blobUrl });
+      });
+
+      // 注意：重新加载文件不会清空 annotationsMap，但若文件名重复可能冲突。
+      // 简单处理：保留旧标注，新文件若无标注则新建。
+      renderFileList();
+      updateResult();
+    }
+
+    function renderFileList() {
+      fileListEl.innerHTML = '';
+      if (fileObjects.length === 0) {
+        fileListEl.innerHTML = '<li class="empty-message">没有文件</li>';
+        return;
+      }
+      fileObjects.forEach((obj, index) => {
+        const li = document.createElement('li');
+        li.textContent = obj.name;
+        li.dataset.index = index;
+        li.addEventListener('click', () => selectFile(index, li));
+        fileListEl.appendChild(li);
+      });
+    }
+
+    function selectFile(index, liElement) {
+      // 保存旧文件的标注
+      saveCurrentAnnotation();
+
+      // 更新激活状态
+      document.querySelectorAll('.file-list li').forEach(el => el.classList.remove('active'));
+      liElement.classList.add('active');
+
+      const obj = fileObjects[index];
+      activeFileName = obj.name;
+      activeBlobUrl = obj.blobUrl;
+
+      // 预览
+      previewContainer.innerHTML = `<img src="${obj.blobUrl}" alt="${obj.name}">`;
+
+      // 加载该文件的标注
+      loadAnnotationForFile(activeFileName);
+    }
+
+    // ---------- 结果生成与复制 ----------
+    function getAnnotationString() {
+      const groupsData = getCurrentGroupsFromDOM();
+      if (groupsData.length === 0) return '';
+      return groupsData.map(tags => tags.join('+')).join('/');
+    }
+
+    function updateResult() {
+      const annotation = getAnnotationString();
+      let final = '';
+      if (activeFileName && annotation) {
+        final = `${activeFileName}:${annotation}`;
+      } else if (activeFileName) {
+        final = `${activeFileName}:`;
+      } else if (annotation) {
+        final = annotation;
+      } else {
+        final = '—';
+      }
+      resultDisplay.textContent = final;
+    }
+
+    function copyResult() {
+      const text = resultDisplay.textContent;
+      if (!text || text === '—') {
+        alert('没有可复制的内容');
+        return;
+      }
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = copyResultBtn.textContent;
+        copyResultBtn.textContent = '✅ 已复制';
+        copyResultBtn.style.background = '#10b981';
+        setTimeout(() => {
+          copyResultBtn.textContent = orig;
+          copyResultBtn.style.background = '#3b82f6';
+        }, 1500);
+      }).catch(() => alert('复制失败，请手动复制'));
+    }
+
+    // ---------- 事件绑定 ----------
+    loadBtn.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) loadFiles(e.target.files);
+    });
+
+    const filePanel = document.querySelector('.file-panel');
+    filePanel.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      filePanel.style.background = '#e0e7ff';
+    });
+    filePanel.addEventListener('dragleave', () => {
+      filePanel.style.background = '#f8fafc';
+    });
+    filePanel.addEventListener('drop', (e) => {
+      e.preventDefault();
+      filePanel.style.background = '#f8fafc';
+      const items = e.dataTransfer.items;
+      if (items) {
+        const files = [];
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i];
+          if (item.kind === 'file') {
+            const file = item.getAsFile();
+            files.push(file);
+          }
         }
+        loadFiles(files);
+      }
+    });
 
-        // 平滑滚动到锚点
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+    addGroupBtn.addEventListener('click', () => {
+      if (!activeFileName) {
+        alert('请先在左侧选择一个文件');
+        return;
+      }
+      addGroup();
+    });
 
-        // 每隔一段时间创建雪花
-        setInterval(createSnowflakes, 300);
-        
-        // 初始创建一些雪花
-        for (let i = 0; i < 20; i++) {
-            setTimeout(() => {
-                createSnowflakes();
-            }, i * 150);
-        }
-    </script>
+    copyResultBtn.addEventListener('click', copyResult);
+
+    // 初始化
+    if (!document.getElementById('tagSuggestions')) {
+      const datalist = document.createElement('datalist');
+      datalist.id = 'tagSuggestions';
+      commonTags.forEach(tag => {
+        const option = document.createElement('option');
+        option.value = tag;
+        datalist.appendChild(option);
+      });
+      document.body.appendChild(datalist);
+    }
+
+    renderGlobalSuggest();
+    // 初始没有文件，显示空状态
+    updateResult();
+
+    // 监听 DOM 变化以自动保存 (MutationObserver)
+    const observer = new MutationObserver(() => {
+      if (activeFileName) {
+        saveCurrentAnnotation();
+        updateResult();
+      }
+    });
+    observer.observe(groupsContainer, { childList: true, subtree: true, characterData: true });
+
+  })();
+</script>
 </body>
 </html>
